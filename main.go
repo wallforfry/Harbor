@@ -111,12 +111,8 @@ func main() {
 		panic(err)
 	}
 
-	if configuration.Language == "fr" {
-		err = gonfig.GetConf("locales/fr.lang", &language)
-		if err != nil {
-			panic(err)
-		}
-	} else {
+	err = gonfig.GetConf(fmt.Sprintf("locales/%s.lang", configuration.Language), &language)
+	if err != nil {
 		err = gonfig.GetConf("locales/en.lang", &language)
 		if err != nil {
 			panic(err)
