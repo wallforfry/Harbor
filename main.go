@@ -9,6 +9,7 @@ import (
     "net/url"
     "github.com/gorilla/mux"
     "github.com/tkanos/gonfig"
+	"html"
 )
 
 
@@ -55,7 +56,7 @@ func makeGetHttpRequest(query string) *http.Response {
 }
 
 func getTags(baseUrl string, imageName string) Image{
-	query := url.QueryEscape(imageName)
+	query := html.EscapeString(imageName)
 	requestUrl := fmt.Sprintf("%s%s%s", baseUrl, query, "/tags/list")
 	resp := makeGetHttpRequest(requestUrl)
 	defer resp.Body.Close()
