@@ -1,0 +1,24 @@
+{{define "content"}}
+<input type="text" id="imageSearch" onkeyup="myFunction()" placeholder="{{.Base.Lang.Search}}">
+	<table id="imagesTable" class="responsive-table">
+		<thead>
+			<tr>
+				<th>Image</th>
+				<th>Tags</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{{range .Images}}
+			<tr>
+				<td>{{.Name}}</td>
+				<td>
+					{{range .Tags}}
+					    	{{.}},
+					{{end}}
+				</td>
+			</tr>
+			{{end}}
+		</tbody>
+	</table>
+{{end}}

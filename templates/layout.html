@@ -1,0 +1,90 @@
+{{define "layout"}}
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Harbor - {{.Base.Configuration.AppTitle}}</title>
+	<!--Let browser know website is optimized for mobile-->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+	<!--Import Google Icon Font-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- Compiled and minified CSS -->
+	<link href="/static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	<link href="/static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    </head>
+    <body>
+	<nav class="light-blue lighten-1" role="navigation">
+		<div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Harbor - {{.Base.Configuration.AppTitle}}</a>
+			<ul class="right hide-on-med-and-down">
+			        <li><a href="#">Menu</a></li>
+			</ul>
+			<ul id="nav-mobile" class="sidenav">
+				<li><a href="#">Menu</a></li>
+			</ul>
+			<a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+		</div>
+	</nav>
+	
+	<main>
+		<div class="section no-pad-bot" id="index-banner">
+			<div class="container">
+				<br><br>
+				<h1 class="header center orange-text">Harbor - {{.Base.Configuration.AppTitle}}</h1>
+				<div class="row center">
+					<h5 class="header col s12 light">{{.Base.Lang.AppSubTitle}}</h5>
+				</div>
+				<div class="row center">
+					<a href="" id="download-button" class="btn-large waves-effect waves-light orange">Go !</a>
+				</div>
+				<br><br>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="section">
+				<article id="content">
+					{{template "content" .}}
+				</article>
+			</div>
+			<br><br>
+		</div>
+	</main>
+	<footer class="page-footer orange">
+		<div class="container">
+			<div class="row">
+				<div class="col l6 s12">
+					<h5 class="white-text">{{.Base.Lang.About}}</h5>
+					<p class="grey-text text-lighten-4">{{.Base.Lang.Informations}}</p>
+				</div>
+				<div class="col l3 s12">
+					<h5 class="white-text">{{.Base.Lang.Settings}}</h5>
+					<ul>
+						<li><a class="white-text" href="https://hub.docker.com/_/registry/">DockerHub Docker-Registry</a></li>
+						<li><a class="white-text" href="https://www.docker.com/">Docker</a></li>
+						<li><a class="white-text" href="https://golang.org/">{{.Base.Lang.Golang}}</a></li>
+					</ul>
+				</div>
+				<div class="col l3 s12">
+					<h5 class="white-text">{{.Base.Lang.Credits}}</h5>
+					<ul>
+						<li><a class="white-text" href="https://github.com/gorilla/mux">Mux</a></li>
+						<li><a class="white-text" href="https://github.com/tkanos/gonfig">Gonfig</a></li>
+						<li><a class="white-text" href="https://materializecss.com/">Materialize</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="footer-copyright">
+			<div class="container">
+				 {{.Base.Lang.Developed}} <a class="orange-text text-lighten-3" href="https://github.com/wallforfry">Wallerand Delevacq</a>
+			</div>
+		</div>
+	</footer>
+
+	<!-- Compiled and minified JavaScript -->
+	<script src="/static/js/jquery-2.1.1.min.js"></script>
+	<script src="/static/js/materialize.min.js"></script>
+	<script src="/static/js/init.js"></script>
+    </body>
+</html>
+{{end}}

@@ -1,0 +1,10 @@
+{
+    "AppSubTitle": "Your Docker-Registry web UI",
+    "About": "About",
+    "Settings": "Settings",
+    "Developed": "Developed by",
+    "Golang": "Written in Golang",
+    "Credits": "Credits",
+    "Informations": "This Web UI allow you to see the content of a Docker Private Registry",
+    "Search": "Search for images.."
+}

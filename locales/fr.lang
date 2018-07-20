@@ -1,0 +1,10 @@
+{
+    "AppSubTitle": "L'interface web de votre Docker-Registry",
+    "About": "À Propos",
+    "Settings": "Paramètres",
+    "Developed": "Développé par",
+    "Golang": "Écrit en Golang",
+    "Credits": "Crédits",
+    "Informations": "Cette interface permet de visualiser le contenu d'un Docker Registry Privé",
+    "Search": "Chercher une image.."
+}
