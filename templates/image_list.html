@@ -1,5 +1,5 @@
 {{define "content"}}
-<input type="text" id="imageSearch" onkeyup="myFunction()" placeholder="{{.Base.Lang.Search}}">
+<input type="text" id="imageSearch" onkeyup="myFunction()" class="orange-text" placeholder="{{.Base.Lang.Search}}">
 	<table id="imagesTable">
 		<thead>
 			<tr>
@@ -9,12 +9,12 @@
 		</thead>
 
 		<tbody>
-			{{range .Images}}
+			{{range $images := .Images}}
 			<tr>
 				<td>{{.Name}}</td>
 				<td>
 					{{range .Tags}}
-					    	{{.}},
+					    	<a href="/details?image={{$images.Name}}&tag={{.}}">{{.}}</a>,
 					{{end}}
 				</td>
 			</tr>

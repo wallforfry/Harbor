@@ -13,3 +13,6 @@
 
 # JetBrains
 .idea/
+
+# Project config
+config.json

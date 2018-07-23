@@ -3,6 +3,7 @@ package main
 type Configuration struct {
 	Port        int
 	RegistryUrl string
+	CheckTLS    bool
 	AppTitle    string
 	Language    string
 }

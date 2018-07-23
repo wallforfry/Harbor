@@ -1,6 +1,7 @@
 {
   "Port": 3008,
-  "RegistryUrl": "http://10.222.17.128:5000/v2/",
+  "RegistryUrl": "http://docker-registry:5000/v2/",
+  "CheckTLS": false,
   "AppTitle": "WebUI",
   "Language": "en"
 }

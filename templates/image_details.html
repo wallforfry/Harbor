@@ -1,0 +1,77 @@
+{{define "content"}}
+
+<nav>
+    <div class="orange lighten-1 nav-wrapper">
+        <div class="col s12">
+                <a href="/" class="breadcrumb">&nbsp; Home</a>
+                <a href="#" class="breadcrumb">{{.Image.Registry}}</a>
+                <a href="#" class="breadcrumb">{{.Image.Name}}</a>
+                <a href="#" class="breadcrumb">{{.Image.Tag}}</a>
+        </div>
+    </div>
+</nav>
+
+<table class="">
+    <thead>
+    <tr>
+        <th>Image Details</th>
+        <th></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+        <td>Image</td>
+        <td>{{.Image.Registry}}/{{.Image.Name}}:{{.Image.Tag}}</td>
+    </tr>
+    <tr>
+        <td>Name</td>
+        <td>{{.Image.Name}}</td>
+    </tr>
+    <tr>
+        <td>Tag</td>
+        <td>{{.Image.Tag}}</td>
+    </tr>
+    <tr>
+        <td>Registry</td>
+        <td>{{.Image.Registry}}</td>
+    </tr>
+    <tr>
+        <td>sha256</td>
+        <td>{{.Image.Digest}}</td>
+    </tr>
+    <tr>
+        <td>Image Size</td>
+        <td>{{prettifySize .Image.Size}}</td>
+    </tr>
+    <tr>
+        <td>Layer Count</td>
+        <td>{{len .Image.TagV2.Layers}}</td>
+    </tr>
+
+    </tbody>
+</table>
+
+<br/>
+<br/>
+<h5>Manifest</h5>
+<table class="responsive-table">
+    <thead>
+    <tr>
+        <th>Layer</th>
+        <th>Digest</th>
+        <th>Size</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {{range $i, $e := .Image.TagV2.Layers}}
+        <tr>
+            <td>{{inc $i}}</td>
+            <td>{{index $e.Digest }}</td>
+            <td>{{prettifySize $e.Size}}</td>
+        </tr>
+    {{end}}
+    </tbody>
+</table>
+{{end}}
