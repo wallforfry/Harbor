@@ -6,5 +6,8 @@
     "Golang": "Écrit en Golang",
     "Credits": "Crédits",
     "Informations": "Cette interface permet de visualiser le contenu d'un Docker Registry Privé",
-    "Search": "Chercher une image.."
+    "Search": "Chercher une image..",
+    "ErrorString": "Désolé, une erreur s'est produite:(",
+    "ImageOrTagNotFound": "Image ou Tag introuvable..",
+    "Back": "Retour"
 }

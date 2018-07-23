@@ -1,7 +1,6 @@
 {{define "content"}}
 
 <div id="error-page">
-
     <div class="row">
         <div class="col s12">
             <div class="browser-window">
@@ -15,7 +14,7 @@
                 <div class="content">
                     <div class="row">
                         <div id="site-layout-example-top" class="col s12">
-                            <h3 class="flat-text-logo center orange-text caption-uppercase">Sorry but an error occurred :(</h3>
+                            <h3 class="flat-text-logo center orange-text caption-uppercase">{{.Base.Lang.ErrorString}}</h3>
                         </div>
                         <div id="site-layout-example-right" class="col s12 m12 l12">
                             <div class="row center">
@@ -25,7 +24,7 @@
                                 <h5 class="center orange-text col s12">{{.Message}}</h5>
                                 <br/>
                                 <br/>
-                                <p class="center s12"><a href="/" class="btn btn-large blue waves-effect waves-light">Back</a>
+                                <p class="center s12"><a href="/" class="btn btn-large blue waves-effect waves-light">{{.Base.Lang.Back}}</a>
 
                             </div>
                         </div>

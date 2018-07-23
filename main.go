@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/tkanos/gonfig"
+	"gitlab.com/wallforfry/harbor/configuration"
 	"gitlab.com/wallforfry/harbor/registry"
 	"html/template"
 	"log"
@@ -12,13 +13,13 @@ import (
 
 type client struct {
 	reg           *registry.Registry
-	configuration Configuration
-	language      Language
+	configuration configuration.Configuration
+	language      configuration.Language
 }
 
 type PageBase struct {
-	Configuration Configuration
-	Lang          Language
+	Configuration configuration.Configuration
+	Lang          configuration.Language
 }
 
 type ErrorPage struct {
@@ -128,7 +129,7 @@ func main() {
 		panic(err)
 	}
 
-	err = gonfig.GetConf(fmt.Sprintf("locales/%s.lang", c.configuration.Language), c.language)
+	err = gonfig.GetConf(fmt.Sprintf("locales/%s.lang", c.configuration.Language), &c.language)
 	if err != nil {
 		err = gonfig.GetConf("locales/en.lang", &c.language)
 		if err != nil {
@@ -136,7 +137,7 @@ func main() {
 		}
 	}
 
-	c.reg = registry.New(c.configuration.RegistryUrl, c.configuration.CheckTLS)
+	c.reg = registry.New(c.configuration, c.language)
 
 	c.reg.GetTagsInfo("golang/harbor", "latest")
 

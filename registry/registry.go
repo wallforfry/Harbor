@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/parnurzeal/gorequest"
+	"gitlab.com/wallforfry/harbor/configuration"
 	"log"
 	"net/http"
 	"net/url"
@@ -13,9 +14,11 @@ import (
 )
 
 type Registry struct {
-	url      string
-	checkTLS bool
-	request  *gorequest.SuperAgent
+	url           string
+	checkTLS      bool
+	request       *gorequest.SuperAgent
+	configuration configuration.Configuration
+	language      configuration.Language
 }
 
 type Catalog struct {
@@ -54,14 +57,17 @@ type Layer struct {
 	Digest    string `json:"digest"`
 }
 
-func New(url string, checkTLS bool) *Registry {
+func New(configuration configuration.Configuration, language configuration.Language) *Registry {
+	uri := configuration.RegistryUrl
+	checkTLS := configuration.CheckTLS
 	r := &Registry{
-		url:      strings.TrimRight(url, "/"),
-		checkTLS: checkTLS,
-		request:  gorequest.New().TLSClientConfig(&tls.Config{InsecureSkipVerify: !checkTLS}),
+		url:           strings.TrimRight(uri, "/"),
+		checkTLS:      checkTLS,
+		request:       gorequest.New().TLSClientConfig(&tls.Config{InsecureSkipVerify: !checkTLS}),
+		configuration: configuration,
+		language:      language,
 	}
 
-	fmt.Println(r.url)
 	resp, _, err := r.request.Get(r.url).End()
 	if len(err) > 0 {
 		panic(err)
@@ -125,7 +131,7 @@ func (r *Registry) GetTagsInfo(imageName, tagName string) (Image, error) {
 	requestUrl := fmt.Sprintf("/%s/manifests/%s", imageName, tagName)
 	resp := r.makeRequest(requestUrl, 2)
 	if resp == nil {
-		return Image{}, errors.New("Image or Tag Not Found")
+		return Image{}, errors.New(r.language.ImageOrTagNotFound)
 	}
 
 	var image Image

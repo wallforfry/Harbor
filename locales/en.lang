@@ -6,5 +6,8 @@
     "Golang": "Written in Golang",
     "Credits": "Credits",
     "Informations": "This Web UI allow you to see the content of a Docker Private Registry",
-    "Search": "Search for images.."
+    "Search": "Search for images..",
+    "ErrorString": "Sorry but an error occurred :(",
+    "ImageOrTagNotFound": "Image or Tag not found..",
+    "Back": "Retour"
 }
