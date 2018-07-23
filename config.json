@@ -1,6 +1,6 @@
 {
   "Port": 3008,
-  "RegistryUrl": "",
+  "RegistryUrl": "http://10.222.17.128:5000/v2/",
   "AppTitle": "WebUI",
   "Language": "en"
 }

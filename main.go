@@ -1,25 +1,23 @@
 package main
 
 import (
-    "html/template"
-    "log"
-    "net/http"
-    "encoding/json"
-    "fmt"
-    "net/url"
-    "github.com/gorilla/mux"
-    "github.com/tkanos/gonfig"
+	"encoding/json"
+	"fmt"
+	"github.com/gorilla/mux"
+	"github.com/tkanos/gonfig"
 	"html"
+	"html/template"
+	"log"
+	"net/http"
+	"net/url"
 )
 
-
-var configuration	Configuration
-var language		Language
-
+var configuration Configuration
+var language Language
 
 type PageBase struct {
-	Configuration	Configuration
-	Lang			Language
+	Configuration Configuration
+	Lang          Language
 }
 
 type ImagesPage struct {
@@ -28,12 +26,12 @@ type ImagesPage struct {
 }
 
 type Catalog struct {
-	Repositories	[]string   `json:"repositories"`
+	Repositories []string `json:"repositories"`
 }
 
 type Image struct {
-	Name	string		`json:"name"`
-	Tags	[]string	`json:"tags"`
+	Name string   `json:"name"`
+	Tags []string `json:"tags"`
 }
 
 func makeGetHttpRequest(query string) *http.Response {
@@ -55,7 +53,7 @@ func makeGetHttpRequest(query string) *http.Response {
 	return resp
 }
 
-func getTags(baseUrl string, imageName string) Image{
+func getTags(baseUrl string, imageName string) Image {
 	query := html.EscapeString(imageName)
 	requestUrl := fmt.Sprintf("%s%s%s", baseUrl, query, "/tags/list")
 	resp := makeGetHttpRequest(requestUrl)
@@ -68,7 +66,7 @@ func getTags(baseUrl string, imageName string) Image{
 	return record
 }
 
-func getCatalog(baseUrl string) Catalog{
+func getCatalog(baseUrl string) Catalog {
 	query := url.QueryEscape("_catalog")
 	requestUrl := fmt.Sprintf("%s%s", baseUrl, query)
 	resp := makeGetHttpRequest(requestUrl)
@@ -125,5 +123,5 @@ func main() {
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 
 	log.Println("Launching Server on port :", configuration.Port)
-	http.ListenAndServe(fmt.Sprintf("%s%d", ":",configuration.Port), r)
+	http.ListenAndServe(fmt.Sprintf("%s%d", ":", configuration.Port), r)
 }
