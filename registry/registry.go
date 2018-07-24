@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"sort"
 	"strings"
 	"wallforfry.fr/harbor/configuration"
 )
@@ -41,6 +42,12 @@ type TagV2 struct {
 	Layers []Layer `json:"layers"`
 }
 
+type Layer struct {
+	MediaType string `json:"mediaType"`
+	Size      int    `json:"size"`
+	Digest    string `json:"digest"`
+}
+
 type Image struct {
 	Registry     string
 	Size         int
@@ -49,12 +56,6 @@ type Image struct {
 	Architecture string `json:"architecture"`
 	Digest       string
 	TagV2        TagV2
-}
-
-type Layer struct {
-	MediaType string `json:"mediaType"`
-	Size      int    `json:"size"`
-	Digest    string `json:"digest"`
 }
 
 func New(configuration configuration.Configuration, language configuration.Language) *Registry {
@@ -120,6 +121,8 @@ func (r *Registry) GetTags(imageName string) Repository {
 	if err := json.NewDecoder(resp.Body).Decode(&record); err != nil {
 		log.Println(err)
 	}
+
+	sort.Strings(record.Tags)
 	return record
 }
 
