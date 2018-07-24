@@ -1,5 +1,6 @@
 package configuration
 
+// Configuration : prototype of config.json file
 type Configuration struct {
 	Port        int
 	RegistryUrl string
@@ -8,6 +9,7 @@ type Configuration struct {
 	Language    string
 }
 
+// Language : prototype of <locale>.lang file
 type Language struct {
 	AppSubTitle        string
 	About              string
