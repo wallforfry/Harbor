@@ -89,12 +89,12 @@ func New(configuration configuration.Configuration, language configuration.Langu
 	}
 
 	//Everything ok
-	if resp.StatusCode == 200 {
-		return r
-	} else {
+	if resp.StatusCode != 200 {
 		log.Fatal("Can't create RegistryClient, Status : ", resp.StatusCode)
 		return nil
 	}
+
+	return r
 }
 
 func (r *Registry) makeRequest(uri string, version uint) (*http.Response, string) {
@@ -126,7 +126,7 @@ func (r *Registry) GetCatalog() Catalog {
 	return record
 }
 
-// GetTags: Return /<image>/tags/list api call data
+// GetTags : Return /<image>/tags/list api call data
 func (r *Registry) GetTags(imageName string) Repository {
 	query := url.QueryEscape(imageName)
 	requestUrl := fmt.Sprintf("/%s%s", query, "/tags/list")
@@ -141,7 +141,7 @@ func (r *Registry) GetTags(imageName string) Repository {
 	return record
 }
 
-// GetTagsInfo: Return /<image>/manifests/<tag> api call data
+// GetTagsInfo : Return /<image>/manifests/<tag> api call data
 func (r *Registry) GetTagsInfo(imageName, tagName string) (Image, error) {
 
 	imageName = url.QueryEscape(imageName)
