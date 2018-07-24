@@ -6,11 +6,11 @@ import (
 	"errors"
 	"fmt"
 	"github.com/parnurzeal/gorequest"
-	"gitlab.com/wallforfry/harbor/configuration"
 	"log"
 	"net/http"
 	"net/url"
 	"strings"
+	"wallforfry.fr/harbor/configuration"
 )
 
 type Registry struct {

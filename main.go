@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/tkanos/gonfig"
-	"gitlab.com/wallforfry/harbor/configuration"
-	"gitlab.com/wallforfry/harbor/registry"
 	"html/template"
 	"log"
 	"net/http"
+	"wallforfry.fr/harbor/configuration"
+	"wallforfry.fr/harbor/registry"
 )
 
 type client struct {
