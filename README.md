@@ -30,8 +30,8 @@ Access to http://localhost:3008/ to see the Web UI
 ##### On your computer :
 
 ```
-$ go get github.com/wallforfry/harbor
-$ cd $GOPATH/src/github.com/wallforfry/harbor
+$ go get wallforfry.fr/harbor
+$ cd $GOPATH/src/wallforfry.fr/harbor
 $ go get -d -v ./...
 $ go install -v ./...
 $ $GOPATH/bin/harbor
@@ -59,6 +59,8 @@ You can deploy Harbor inside Docker or has a service.
 * [Mux](https://github.com/gorilla/mux) - A powerful URL router and dispatcher for Golang
 * [Gonfig](https://github.com/tkanos/gonfig) - Manage Configuration file and environment in GO
 * [Materialize](https://materializecss.com/) - A modern responsive front-end framework based on Material Design
+* [GoRequest](https://github.com/parnurzeal/gorequest/) - Simplified HTTP client
+* [GJSON](https://github.com/tidwall/gjson/) - Get JSON values quickly - JSON Parser for Go
 
 ## Contributing
 
