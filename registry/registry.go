@@ -78,7 +78,6 @@ func New(configuration configuration.Configuration, language configuration.Langu
 	resp, _, err := r.request.Get(r.url).End()
 	if len(err) > 0 {
 		panic(err)
-		return nil
 	}
 
 	//Everything ok
