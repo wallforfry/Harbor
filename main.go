@@ -18,11 +18,13 @@ type client struct {
 	language      configuration.Language
 }
 
+// PageBase : base struct for webpage
 type PageBase struct {
 	Configuration configuration.Configuration
 	Lang          configuration.Language
 }
 
+// ErrorPage : webpage error struct
 type ErrorPage struct {
 	Base    PageBase
 	Code    int
@@ -30,26 +32,18 @@ type ErrorPage struct {
 	Header  bool
 }
 
+// ImagesPage : webpage images struct
 type ImagesPage struct {
 	Base   PageBase
 	Images []registry.Repository
 	Header bool
 }
 
+// ImageDetailsPage : webpage image details struct
 type ImageDetailsPage struct {
 	Base   PageBase
 	Image  registry.Image
 	Header bool
-}
-
-func PrettifySize(size int) string {
-	units := []string{"B", "KB", "MB", "GB"}
-	i := 0
-	for size > 1024 && i < len(units) {
-		size = size / 1024
-		i = i + 1
-	}
-	return fmt.Sprintf("%.*d %s", 0, size, units[i])
 }
 
 func (c *client) viewRepositories(w http.ResponseWriter, r *http.Request) {
@@ -93,7 +87,13 @@ func (c *client) viewImage(w http.ResponseWriter, r *http.Request) {
 			return i + 1
 		},
 		"prettifySize": func(size int) string {
-			return PrettifySize(size)
+			units := []string{"B", "KB", "MB", "GB"}
+			i := 0
+			for size > 1024 && i < len(units) {
+				size = size / 1024
+				i = i + 1
+			}
+			return fmt.Sprintf("%.*d %s", 0, size, units[i])
 		},
 		"prettifyTime": func(datetime interface{}) string {
 			d := strings.Replace(datetime.(string), "T", " ", 1)

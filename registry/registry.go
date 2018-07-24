@@ -15,6 +15,7 @@ import (
 	"wallforfry.fr/harbor/configuration"
 )
 
+// Registry main struct
 type Registry struct {
 	url           string
 	checkTLS      bool
@@ -23,19 +24,23 @@ type Registry struct {
 	language      configuration.Language
 }
 
+// Catalog : Represent /_catalog api call
 type Catalog struct {
 	Repositories []string `json:"repositories"`
 }
 
+// Repository : It's a raw of Repository
 type Repository struct {
 	Name string   `json:"name"`
 	Tags []string `json:"tags"`
 }
 
+// TagV1 : Some data from /<image>/manifests/<tag> in v1 api
 type TagV1 struct {
 	Created string
 }
 
+// TagV2 : Some data from /<image>/manifests/<tag> in v2 api
 type TagV2 struct {
 	SchemaVersion int    `json:"schemaVersion"`
 	MediaType     string `json:"mediaType"`
@@ -47,12 +52,14 @@ type TagV2 struct {
 	Layers []Layer `json:"layers"`
 }
 
+// Layer : Part of TagV2, represente a docker image layer
 type Layer struct {
 	MediaType string `json:"mediaType"`
 	Size      int    `json:"size"`
 	Digest    string `json:"digest"`
 }
 
+// Image : Top level struct of informations about an image
 type Image struct {
 	Registry     string
 	Size         int
@@ -64,6 +71,7 @@ type Image struct {
 	TagV1        TagV1
 }
 
+// New : Create a new registry client
 func New(configuration configuration.Configuration, language configuration.Language) *Registry {
 	uri := configuration.RegistryUrl
 	checkTLS := configuration.CheckTLS
@@ -104,6 +112,7 @@ func (r *Registry) makeRequest(uri string, version uint) (*http.Response, string
 	return resp, data
 }
 
+// GetCatalog : Return /_catalog api call data
 func (r *Registry) GetCatalog() Catalog {
 	query := url.QueryEscape("_catalog")
 	requestUrl := fmt.Sprintf("/%s", query)
@@ -117,6 +126,7 @@ func (r *Registry) GetCatalog() Catalog {
 	return record
 }
 
+// GetTags: Return /<image>/tags/list api call data
 func (r *Registry) GetTags(imageName string) Repository {
 	query := url.QueryEscape(imageName)
 	requestUrl := fmt.Sprintf("/%s%s", query, "/tags/list")
@@ -131,6 +141,7 @@ func (r *Registry) GetTags(imageName string) Repository {
 	return record
 }
 
+// GetTagsInfo: Return /<image>/manifests/<tag> api call data
 func (r *Registry) GetTagsInfo(imageName, tagName string) (Image, error) {
 
 	imageName = url.QueryEscape(imageName)
