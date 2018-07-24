@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/parnurzeal/gorequest"
+	"github.com/tidwall/gjson"
 	"log"
 	"net/http"
 	"net/url"
@@ -29,6 +30,10 @@ type Catalog struct {
 type Repository struct {
 	Name string   `json:"name"`
 	Tags []string `json:"tags"`
+}
+
+type TagV1 struct {
+	Created string
 }
 
 type TagV2 struct {
@@ -56,6 +61,7 @@ type Image struct {
 	Architecture string `json:"architecture"`
 	Digest       string
 	TagV2        TagV2
+	TagV1        TagV1
 }
 
 func New(configuration configuration.Configuration, language configuration.Language) *Registry {
@@ -84,25 +90,25 @@ func New(configuration configuration.Configuration, language configuration.Langu
 	}
 }
 
-func (r *Registry) makeRequest(uri string, version uint) *http.Response {
+func (r *Registry) makeRequest(uri string, version uint) (*http.Response, string) {
 	headerAccept := fmt.Sprintf("application/vnd.docker.distribution.manifest.v%d+json", version)
-	resp, _, err := r.request.Get(r.url+uri).Set("Accept", headerAccept).End()
+	resp, data, err := r.request.Get(r.url+uri).Set("Accept", headerAccept).End()
 	if len(err) > 0 {
 		panic(err)
 	}
 
 	if resp.StatusCode != 200 {
 		log.Println("Error during request : ", r.url+uri, " | Status : ", resp.StatusCode)
-		return nil
+		return nil, ""
 	}
 
-	return resp
+	return resp, data
 }
 
 func (r *Registry) GetCatalog() Catalog {
 	query := url.QueryEscape("_catalog")
 	requestUrl := fmt.Sprintf("/%s", query)
-	resp := r.makeRequest(requestUrl, 2)
+	resp, _ := r.makeRequest(requestUrl, 2)
 
 	var record Catalog
 	if err := json.NewDecoder(resp.Body).Decode(&record); err != nil {
@@ -115,7 +121,7 @@ func (r *Registry) GetCatalog() Catalog {
 func (r *Registry) GetTags(imageName string) Repository {
 	query := url.QueryEscape(imageName)
 	requestUrl := fmt.Sprintf("/%s%s", query, "/tags/list")
-	resp := r.makeRequest(requestUrl, 2)
+	resp, _ := r.makeRequest(requestUrl, 2)
 
 	var record Repository
 	if err := json.NewDecoder(resp.Body).Decode(&record); err != nil {
@@ -132,24 +138,26 @@ func (r *Registry) GetTagsInfo(imageName, tagName string) (Image, error) {
 	tagName = url.QueryEscape(tagName)
 
 	requestUrl := fmt.Sprintf("/%s/manifests/%s", imageName, tagName)
-	resp := r.makeRequest(requestUrl, 2)
-	if resp == nil {
-		return Image{}, errors.New(r.language.ImageOrTagNotFound)
-	}
 
 	var image Image
-	image.Digest = resp.Header.Get("Docker-Content-Digest")[7:]
+
+	respv2, _ := r.makeRequest(requestUrl, 2)
+	if respv2 == nil {
+		return Image{}, errors.New(r.language.ImageOrTagNotFound)
+	}
+	if err := json.NewDecoder(respv2.Body).Decode(&image.TagV2); err != nil {
+		log.Println(err)
+	}
+
+	image.Digest = respv2.Header.Get("Docker-Content-Digest")[7:]
 	image.Registry = strings.TrimRight(strings.TrimLeft(r.url, "https://"), "/v2/")
 
-	if err := json.NewDecoder(resp.Body).Decode(&image.TagV2); err != nil {
+	respv1, datav1 := r.makeRequest(requestUrl, 1)
+	image.TagV1 = TagV1{gjson.Get(gjson.Get(datav1, "history.0.v1Compatibility").String(), "created").String()}
+
+	if err := json.NewDecoder(respv1.Body).Decode(&image); err != nil {
 		log.Println(err)
 	}
-
-	resp = r.makeRequest(requestUrl, 1)
-	if err := json.NewDecoder(resp.Body).Decode(&image); err != nil {
-		log.Println(err)
-	}
-
 	for _, element := range image.TagV2.Layers {
 		image.Size += element.Size
 	}

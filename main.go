@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strings"
 	"wallforfry.fr/harbor/configuration"
 	"wallforfry.fr/harbor/registry"
 )
@@ -93,6 +94,11 @@ func (c *client) viewImage(w http.ResponseWriter, r *http.Request) {
 		},
 		"prettifySize": func(size int) string {
 			return PrettifySize(size)
+		},
+		"prettifyTime": func(datetime interface{}) string {
+			d := strings.Replace(datetime.(string), "T", " ", 1)
+			d = strings.Replace(d, "Z", "", 1)
+			return strings.Split(d, ".")[0]
 		},
 	}
 

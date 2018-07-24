@@ -45,6 +45,10 @@
         <td>{{prettifySize .Image.Size}}</td>
     </tr>
     <tr>
+        <td>Created On</td>
+        <td>{{.Image.TagV1.Created | prettifyTime}}</td>
+    </tr>
+    <tr>
         <td>Layer Count</td>
         <td>{{len .Image.TagV2.Layers}}</td>
     </tr>
