@@ -4,78 +4,74 @@
     <div class="orange lighten-1 nav-wrapper">
         <div class="col s12">
                 <a href="/" class="breadcrumb">&nbsp; Home</a>
-                <a href="#" class="breadcrumb">{{.Image.Registry}}</a>
+                <a href="#" class="breadcrumb hide-on-small-and-down">{{.Image.Registry}}</a>
                 <a href="#" class="breadcrumb">{{.Image.Name}}</a>
                 <a href="#" class="breadcrumb">{{.Image.Tag}}</a>
         </div>
     </div>
 </nav>
 
-<table class="">
-    <thead>
-    <tr>
-        <th>Image Details</th>
-        <th></th>
-    </tr>
-    </thead>
-
-    <tbody>
-    <tr>
-        <td>Image</td>
-        <td>{{.Image.Registry}}/{{.Image.Name}}:{{.Image.Tag}}</td>
-    </tr>
-    <tr>
-        <td>Name</td>
-        <td>{{.Image.Name}}</td>
-    </tr>
-    <tr>
-        <td>Tag</td>
-        <td>{{.Image.Tag}}</td>
-    </tr>
-    <tr>
-        <td>Registry</td>
-        <td>{{.Image.Registry}}</td>
-    </tr>
-    <tr>
-        <td>sha256</td>
-        <td>{{.Image.Digest}}</td>
-    </tr>
-    <tr>
-        <td>Image Size</td>
-        <td>{{prettifySize .Image.Size}}</td>
-    </tr>
-    <tr>
-        <td>Created On</td>
-        <td>{{.Image.TagV1.Created | prettifyTime}}</td>
-    </tr>
-    <tr>
-        <td>Layer Count</td>
-        <td>{{len .Image.TagV2.Layers}}</td>
-    </tr>
-
-    </tbody>
-</table>
-
+<div class="row">
+    <h5>Image Details</h5>
+    <table class="">
+        <tbody>
+            <tr>
+                <th>Image</th>
+                <td>{{.Image.Registry}}/{{.Image.Name}}:{{.Image.Tag}}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{.Image.Name}}</td>
+            </tr>
+            <tr>
+                <th>Tag</th>
+                <td>{{.Image.Tag}}</td>
+            </tr>
+            <tr>
+                <th>Registry</th>
+                <td>{{.Image.Registry}}</td>
+            </tr>
+            <tr>
+                <th>sha256</th>
+                <td style="max-width: 100px; overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{.Image.Digest}}</td>
+            </tr>
+            <tr>
+                <th>Image Size</th>
+                <td>{{prettifySize .Image.Size}}</td>
+            </tr>
+            <tr>
+                <th>Created On</th>
+                <td>{{.Image.TagV1.Created | prettifyTime}}</td>
+            </tr>
+            <tr>
+                <th>Layer Count</th>
+                <td>{{len .Image.TagV2.Layers}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <br/>
 <br/>
-<h5>Manifest</h5>
-<table class="responsive-table">
-    <thead>
-    <tr>
-        <th>Layer</th>
-        <th>Digest</th>
-        <th>Size</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    {{range $i, $e := .Image.TagV2.Layers}}
+<div class="row">
+    <h5>Manifest</h5>
+    <table class="responsive-table">
+        <thead>
         <tr>
-            <td>{{inc $i}}</td>
-            <td>{{index $e.Digest }}</td>
-            <td>{{prettifySize $e.Size}}</td>
+            <th>Layer</th>
+            <th>Digest</th>
+            <th>Size</th>
         </tr>
-    {{end}}
-    </tbody>
-</table>
+        </thead>
+
+        <tbody>
+        {{range $i, $e := .Image.TagV2.Layers}}
+            <tr>
+                <td>{{inc $i}}</td>
+                <td>{{index $e.Digest }}</td>
+                <td>{{prettifySize $e.Size}}</td>
+            </tr>
+        {{end}}
+        </tbody>
+    </table>
+</div>
 {{end}}
