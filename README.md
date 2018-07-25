@@ -3,6 +3,7 @@
 Harbor is a lightweight Web UI designed in Golang for your private Docker Registry.
 
 [![Go Report Card](https://goreportcard.com/badge/gitlab.com/wallforfry/Harbor)](https://goreportcard.com/report/gitlab.com/wallforfry/Harbor)
+[![Travis Build Status](https://travis-ci.org/wallforfry/Harbor.svg?branch=master)](https://travis-ci.org/wallforfry/Harbor)
 
 ## Getting Started
 
