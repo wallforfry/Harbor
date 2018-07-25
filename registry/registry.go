@@ -19,6 +19,8 @@ import (
 type Registry struct {
 	url           string
 	checkTLS      bool
+	username      string
+	password      string
 	request       *gorequest.SuperAgent
 	configuration configuration.Configuration
 	language      configuration.Language
@@ -75,9 +77,14 @@ type Image struct {
 func New(configuration configuration.Configuration, language configuration.Language) *Registry {
 	uri := configuration.RegistryUrl
 	checkTLS := configuration.CheckTLS
+	username := configuration.Username
+	password := configuration.Password
+
 	r := &Registry{
 		url:           strings.TrimRight(uri, "/"),
 		checkTLS:      checkTLS,
+		username:      username,
+		password:      password,
 		request:       gorequest.New().TLSClientConfig(&tls.Config{InsecureSkipVerify: !checkTLS}),
 		configuration: configuration,
 		language:      language,
@@ -88,10 +95,12 @@ func New(configuration configuration.Configuration, language configuration.Langu
 		panic(err)
 	}
 
-	//Everything ok
-	if resp.StatusCode != 200 {
+	if resp.StatusCode == 200 {
+		return r
+	} else if resp.StatusCode == 401 {
+		log.Fatal("Auth not yet supported")
+	} else {
 		log.Fatal("Can't create RegistryClient, Status : ", resp.StatusCode)
-		return nil
 	}
 
 	return r

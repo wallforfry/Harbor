@@ -5,6 +5,8 @@ type Configuration struct {
 	Port        int
 	RegistryUrl string
 	CheckTLS    bool
+	Username    string
+	Password    string
 	AppTitle    string
 	Language    string
 }
